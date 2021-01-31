@@ -27,3 +27,6 @@ $RECYCLE.BIN/
 
 # junk
 *.log
+
+# project-specific
+tools/Setup-Tools.ps1
