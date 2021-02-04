@@ -20,7 +20,7 @@ private _fnc_UI = {
 					{
 						params ["_dialog_data","_caller"];
 						_dialog_data params ["_target"];
-						private _success = [_target, _caller] call cnto_telestation_teleportUnit;
+						private _success = [_target, _caller] call cnto_telestation_fnc_teleportUnit;
 						if (_success) then {hint "Moved to near unit"};
 					},
 					{},
