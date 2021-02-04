@@ -12,6 +12,8 @@ class CfgFunctions {
     class cnto_telestation {
         class all {
             file = "\cnto\additions\telestation";
+			class ui;
+			class teleportUnit;
         };
     };
 };
