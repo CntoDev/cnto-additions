@@ -3,8 +3,8 @@ params ["_target", "_caller"];
 private _teleportSuccess = false;
 private _failPos = [-500, -500, 0];
 
-private _blacklistEnemy = 		(allUnits select {side _caller != side _x && side _x != "civilian"}) apply {[getPos _x, 50]};
-private _blacklistFriendly = 	(allUnits select {side _caller == side _x || side _x == "civilian"}) apply {[getPos _x, 10]};
+private _blacklistEnemy = 		(allUnits select {(side _caller != side _x) && (side _x != civilian)}) apply {[getPos _x, 50]};
+private _blacklistFriendly = 	(allUnits select {(side _caller == side _x) || (side _x == civilian)}) apply {[getPos _x, 10]};
 private _blacklist = _blacklistEnemy + _blacklistFriendly;
 
 // if target is in vehicle and said vehicle has space

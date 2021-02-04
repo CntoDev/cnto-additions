@@ -5,7 +5,9 @@ private _fnc_UI = {
 
 	[
 		"Telestation",
-		["CHECKBOX", "The telestation is ONLY to be used in case of deaths due to glitches or disconnects", false],
+		[
+			["CHECKBOX", "This teleport is for technical reasons", false, true]
+		],
 		{
 			/*---------------------------------------------------------*/
 			params ["_dialog_data","_caller"];
@@ -15,17 +17,25 @@ private _fnc_UI = {
 				private _validTargetNames = _validTargets apply {name _x};
 
 				[
-					"Telestation destination selector",
-					["LIST", "Select a player to move near to", [_validTargets, _validTargetNames, 0]],
+					"Telestation: destination selector",
+					[
+						["LIST", "Select a player to move near to", [_validTargets, _validTargetNames, 0]]
+					],
 					{
 						params ["_dialog_data","_caller"];
 						_dialog_data params ["_target"];
 						private _success = [_target, _caller] call cnto_telestation_fnc_teleportUnit;
-						if (_success) then {hint "Moved to near unit"};
+						if (_success) then {
+							systemchat format ["Moved to near %1", name _target];
+						} else {
+							systemchat "Could not find teleport position. Try again or try another player.";
+						};
 					},
 					{},
 					_caller
 				] call zen_dialog_fnc_create;
+			} else {
+				systemchat "The telestation is only to be used for technical reasons"
 			};
 			/*---------------------------------------------------------*/
 		},
