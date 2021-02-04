@@ -53,6 +53,15 @@ Specifically, to build cnto-additions, call this for every folder (called ie.
 
     armake build -p something something.pbo
 
+### Windows powershell script (setup)
+
+1. Install Powershell 7+.
+1. Open powershell and go to root of git repository.
+1. Run `Copy-Item .\tools\Setup-Tools.ps1.init -Destination .\tools\Setup-Tools.ps1`
+1. Setup paths in `.\tools\Setup.ps1` to proper location on your disk.
+
+When you want to run the build just run `.\tools\Build-Pbo.ps1`.
+
 # Coding style
 
 Please take a look at other `addons` to get a general idea for the coding
