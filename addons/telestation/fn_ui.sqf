@@ -35,7 +35,7 @@ _telestation addAction
 	"Use telestation",	// title
 	{
 		params ["_target", "_caller", "_actionId", "_fnc_UI"]; // script
-		call _fnc_UI;
+		_caller call _fnc_UI;
 	},
 	_fnc_UI,		// arguments
 	1.5,		// priority
