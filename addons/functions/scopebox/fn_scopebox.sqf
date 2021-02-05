@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-Function: cnto_fnc_runTest
+Function: cnto_fnc_scopebox;
 Description:
 	Adds a scopebox which will open a Zeus Enhanced dialog allowing a player to select any 1x optic that is compatible with their gun.
 Parameters:
@@ -8,7 +8,7 @@ Returns:
 	None
 Examples:
 	(begin example)
-		this call cnto_functions_fnc_scopebox;
+		this call cnto_fnc_scopebox;
 	(end)
 Author:
 	Seb
