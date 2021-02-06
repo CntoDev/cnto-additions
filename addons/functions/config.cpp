@@ -6,8 +6,8 @@ class CfgPatches {
         units[] = {};
         weapons[] = {};
         requiredAddons[] = {
-			"zen_dialog"
-		};
+            "zen_dialog"
+        };
     };
 };
 
@@ -17,9 +17,9 @@ class CfgFunctions {
             file = "\cnto\additions\functions\performance";
             class runTest;
         };
-		class scopebox {
-			file = "\cnto\additions\functions\scopebox";
-			class scopebox;
-		};
+        class scopebox {
+            file = "\cnto\additions\functions\scopebox";
+            class scopebox;
+        };
     };
 };
