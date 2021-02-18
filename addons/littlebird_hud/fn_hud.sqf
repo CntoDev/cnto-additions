@@ -34,7 +34,7 @@ if (_isLittlebird) then {
         if (_vehicle isKindOf "RHS_MELB_AH6M") then {
             _vehicle animateSource ["Addcrosshair", 1, true];
         } else {
-            _vehicle setObjectTexture [1, "a3\air_f\heli_light_01\data\heli_light_01_dot_ca.paa"];
+            _vehicle setObjectTextureGlobal [1, "a3\air_f\heli_light_01\data\heli_light_01_dot_ca.paa"];
         };
     };
 }, 0, [_vehicle,_size,_zOffset]] call CBA_fnc_addPerFrameHandler;
