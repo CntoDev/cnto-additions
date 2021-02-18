@@ -1,7 +1,7 @@
 [
 	"cnto_littlebird_hud_enable",
 	"CHECKBOX",
-	["Enable", "Enable small forward-facing collimator style reticle for AH-6 and AH-9 aircraft"],
+	["Enable", "Enable small forward-facing collimator style reticle for AH-6 and AH-9 aircraft. Requires re-entering vehicle for changes to take effect."],
 	["CNTO Additions", "Littlebird HUD"],
 	true,  /* default */
 	false,  /* isGlobal */
@@ -34,17 +34,5 @@
 	private _playerVeh = vehicle player;
 	if (_playerVeh isKindOf "RHS_MELB_AH6M" OR _playerVeh isKindOf "Heli_Light_01_armed_base_F") then {
 		_playerVeh call cnto_littlebird_hud_fnc_hud;
-	};
-
-	// remove grease dot
-	if (cnto_littlebird_hud_enable) then {
-		// Pawnee
-		["Heli_Light_01_armed_base_F", "initPost", {
-			_this#0 setObjectTexture [1,""]
-		}, true, [], true] call CBA_fnc_addClassEventHandler;
-		// Littlebird
-		["RHS_MELB_AH6M", "initPost", {
-			_this#0 animateSource ["Addcrosshair", 0, true];
-		}, true, [], true] call CBA_fnc_addClassEventHandler;
 	};
 };
