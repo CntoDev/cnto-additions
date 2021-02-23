@@ -16,6 +16,7 @@ class CfgFunctions {
             file = "cnto\additions\littlebird_hud";
             class init;
             class hud;
+            class showGreaseDot;
         };
     };
 };
