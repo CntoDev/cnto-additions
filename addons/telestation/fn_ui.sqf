@@ -13,7 +13,7 @@ private _fnc_UI = {
             params ["_dialog_data","_caller"];
             _dialog_data params ["_ticked"];
             if (_ticked) then {
-                private _validTargets = allUnits select {side _x == side _caller};
+                private _validTargets = playableUnits select {side _x == side _caller && _x != _caller};
                 private _validTargetNames = _validTargets apply {name _x};
 
                 [
