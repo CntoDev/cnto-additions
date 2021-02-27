@@ -1,0 +1,2 @@
+$addonBuilder = "C:\cnto\dev\armake_v0.6.3\armake_w64.exe"
+$destination = "C:\cnto\dev\build\@cnto-additions"
