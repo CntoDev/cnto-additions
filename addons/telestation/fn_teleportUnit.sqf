@@ -3,8 +3,9 @@ params ["_target", "_caller"];
 private _teleportSuccess = false;
 private _failPos = [-500, -500, 0];
 
-private _blacklistEnemy =    (allUnits select {(side _caller != side _x) && (side _x != civilian)}) apply {[getPos _x, 50]};
-private _blacklistFriendly = (allUnits select {(side _caller == side _x) || (side _x == civilian)}) apply {[getPos _x, 10]};
+private _blacklistUnits = allUnits select {_target distance2D _x < 150};
+private _blacklistEnemy =    (_blacklistUnits select {(side _caller != side _x) && (side _x != civilian)}) apply {[getPos _x, 50]};
+private _blacklistFriendly = (_blacklistUnits select {(side _caller == side _x) || (side _x == civilian)}) apply {[getPos _x, 10]};
 private _blacklist = _blacklistEnemy + _blacklistFriendly;
 
 // if target is in vehicle and said vehicle has space
@@ -27,7 +28,8 @@ if (vehicle _target != _target && vehicle _target emptyPositions "cargo" > 0) th
             0,                      // water mode
             0.1,                    // max ground gradient
             0,                      // shore mode
-            _blacklist,             // blacklist array
+            _blacklist,             // blacklist positions array
+            _blacklistUnits,        // blacklisted unit visibility checks
             [_failPos, _failPos]    // default positions if no pos found
         ] call cnto_telestation_fnc_customFindSafePos;
         

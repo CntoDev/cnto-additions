@@ -2,6 +2,8 @@
     Author: 
         Joris-Jan van 't Land, optimised by Killzone_Kid
 
+        Modified by Seb to add visibility checks for units
+
     Description:
         Function to generate position in the world according to several parameters.
 
@@ -31,8 +33,11 @@
                 STRING - marker area
                 LOCATION - location area
                 ARRAY - array in format [center, distance] or [center, a, b, angle, rect] or [center, a, b, angle, rect, height]
-						
-        8: (Optional) ARRAY - array in format [landPosition, seaPosition], where:
+        
+        8: (Optional) ARRAY - Units to check visiblility from: 
+                ARRAY - array of units.
+
+        9: (Optional) ARRAY - array in format [landPosition, seaPosition], where:
                 landPosition: ARRAY - in format [x,y] or [x,y,z] - default position on land
                 seaPosition: ARRAY - in format [x,y] or [x,y,z] - default position on water
 	
@@ -54,17 +59,12 @@ params [
     ["_maxGradient",0], 
     ["_shoreMode",0], 
     ["_posBlacklist",[]],
+    ["_unitVisibleBlacklist",[]],
     ["_defaultPos",[]]
 ];
 
 // support object for center pos as well
 if (_checkPos isEqualType objNull) then {_checkPos = getPos _checkPos};
-
-/// --- validate input
-#include "..\paramsCheck.inc"
-#define arr1 [_checkPos,_minDistance,_maxDistance,_objectProximity,_waterMode,_maxGradient,_shoreMode,_posBlacklist,_defaultPos]
-#define arr2 [[],0,0,0,0,0,0,[],[]]
-paramsCheck(arr1,isEqualTypeParams,arr2)
 
 private _defaultMaxDistance = worldSize / 2;
 private _defaultCenterPos = [_defaultMaxDistance, _defaultMaxDistance, 0];
@@ -97,6 +97,7 @@ if (_maxDistance < 0) then
 
 private _checkProximity = _objectProximity > 0;
 private _checkBlacklist = !(_posBlacklist isEqualTo []);
+private _checkUnitBlacklist = !(_unitVisibleBlacklist isEqualTo []);
 
 _shoreMode = _shoreMode != 0;
 
@@ -139,8 +140,19 @@ for "_i" from 1 to MAX_TRIES do
         if !(lineIntersectsSurfaces [AGLtoASL _this, AGLtoASL _this vectorAdd [0, 0, 50], objNull, objNull, false, 1, "GEOM", "NONE"] isEqualTo []) exitWith {};
 		
         // not in blacklist
-        if (_checkBlacklist && {{if (_this inArea _x) exitWith {true}; false} forEach _posBlacklist}) exitWith {};
-		
+        if (_checkBlacklist && {
+            {
+                if (_this inArea _x) exitWith {true}; false
+            } forEach _posBlacklist}) exitWith {};
+
+
+        if (_checkUnitBlacklist && {
+            {
+                private _pos = (AGLtoASL _this) vectorAdd [0, 0, 1.8];
+                private _relDir = _x getRelDir _pos;
+                if ((_relDir < 60 or _relDir > 300) && {_pos checkVisibility eyePos _x > 0.5}) exitWith {true}; false // check unit is facing position and position is visible
+            } forEach _unitVisibleBlacklist}) exitWith {};
+
         _this select [0, 2] breakOut "main";
     };
 };
