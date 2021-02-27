@@ -6,12 +6,14 @@ private _fnc_UI = {
     [
         "Telestation",
         [
-            ["CHECKBOX", "This teleport is for technical reasons", false, true]
+            ["EDIT:MULTI", "The telestation is only to be used in cases of technical problems.", ["", {}, 0], true],
+            ["EDIT:MULTI", "Confirm your use is because of technical difficulties.", ["", {}, 0], true], 
+            ["CHECKBOX", "Confirm", false, true]
         ],
         {
             /*---------------------------------------------------------*/
             params ["_dialog_data","_caller"];
-            _dialog_data params ["_ticked"];
+            _dialog_data params ["_text1", "_text2", "_ticked"];
             if (_ticked) then {
                 private _validTargets = playableUnits select {side _x == side _caller && _x != _caller};
                 private _validTargetNames = _validTargets apply {name _x};
@@ -35,7 +37,7 @@ private _fnc_UI = {
                     _caller
                 ] call zen_dialog_fnc_create;
             } else {
-                systemchat "The telestation is only to be used for technical reasons"
+                systemchat "The telestation is only to be used in cases of technical difficulties"
             };
             /*---------------------------------------------------------*/
         },
@@ -57,7 +59,7 @@ _telestation addAction
     true,       // hideOnUse
     "",         // shortcut
     "true",     // condition
-    50,         // radius
+    3,         // radius
     false,      // unconscious
     "",         // selection
     ""          // memoryPoint

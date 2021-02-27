@@ -14,7 +14,7 @@ class CfgFunctions {
             file = "\cnto\additions\telestation";
             class ui;
             class teleportUnit;
-            class customFindSafePos
+            class customFindSafePos;
         };
     };
 };
