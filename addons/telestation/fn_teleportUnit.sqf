@@ -16,8 +16,8 @@ if (vehicle _target != _target && vehicle _target emptyPositions "cargo" > 0) th
 
 } else {
     private _pos = _failPos;
-    // Do not teleport player onto ground if target is in full air vehicle.
-    if (vehicle _target isKindOf "Air") exitWith {}; // Don't teleport player into a full helicopter
+    
+    if (vehicle _target != _target && {vehicle _target isKindOf "Air" || speed vehicle _target > 15}) exitWith {}; // Don't teleport player near a full helicopter or fast-moving vehicle
 
     for "_maxDist" from 10 to 100 step 10 do {
         _pos = [
