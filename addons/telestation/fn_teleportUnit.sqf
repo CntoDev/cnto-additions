@@ -19,15 +19,15 @@ if (vehicle _target != _target && vehicle _target emptyPositions "cargo" > 0) th
     if !(vehicle _target isKindOf "Air") then {
         for "_maxDist" from 10 to 100 step 10 do {
             _pos = [
-                getPos _target,     // centre
-                10,                 // min dist
-                _maxDist,           // max dist
-                1,                  // min dist from any object
-                0,                  // water mode
-                0.1,                // max ground gradient
-                0,                  // shore mode
-                _blacklist,         // blacklist array
-                _failPos            // default position if no pos found
+                getPos _target,         // centre
+                10,                     // min dist
+                _maxDist,               // max dist
+                1,                      // min dist from any object
+                0,                      // water mode
+                0.1,                    // max ground gradient
+                0,                      // shore mode
+                _blacklist,             // blacklist array
+                [_failPos, _failPos]    // default positions if no pos found
             ] call BIS_fnc_findSafePos;
             
             if !(_pos isEqualTo _failPos) exitWith {};
