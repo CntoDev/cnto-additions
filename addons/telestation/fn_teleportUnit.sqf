@@ -29,7 +29,7 @@ if (vehicle _target != _target && vehicle _target emptyPositions "cargo" > 0) th
             0,                      // shore mode
             _blacklist,             // blacklist array
             [_failPos, _failPos]    // default positions if no pos found
-        ] call BIS_fnc_findSafePos;
+        ] call cnto_telestation_fnc_customFindSafePos;
         
         if !(_pos isEqualTo _failPos) exitWith {};
     };
