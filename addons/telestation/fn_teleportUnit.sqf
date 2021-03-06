@@ -43,7 +43,6 @@ if (vehicle _target != _target && vehicle _target emptyPositions "cargo" > 0) th
 
 };
 // snitch on player to Zeus
-private _gamemasters = allCurators apply {getAssignedCuratorUnit _x};
-(format ["%1 %2 attempted to use the Telestation", name _caller, ["unsuccessfully", "successfully"] select _teleportSuccess]) remoteExec ["systemChat", _gamemasters];
+[_caller, _teleportSuccess] remoteExec ["cnto_telestation_fnc_bugDaZeus"];
 
 _teleportSuccess

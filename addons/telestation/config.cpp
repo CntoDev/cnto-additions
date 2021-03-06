@@ -15,6 +15,7 @@ class CfgFunctions {
             class ui;
             class teleportUnit;
             class customFindSafePos;
+            class bugDaZeus;
         };
     };
 };
