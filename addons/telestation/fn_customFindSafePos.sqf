@@ -148,9 +148,9 @@ for "_i" from 1 to MAX_TRIES do
 
         if (_checkUnitBlacklist && {
             {
-                private _pos = (AGLtoASL _this) vectorAdd [0, 0, 1.8];
+                private _pos = (AGLtoASL _this) vectorAdd [0, 0, 1.8]; // eye level to eye level check
                 private _relDir = _x getRelDir _pos;
-                if ((_relDir < 60 or _relDir > 300) && {[_x, "VIEW"] checkVisibility [eyePos _x, _pos] > 0.5}) exitWith {true}; false // check unit is facing position and position is visible
+                if ((_relDir < 60 or _relDir > 300) && {[_x, "GEOM"] checkVisibility [eyePos _x, _pos] > 0.01}) exitWith {true}; false // check unit is facing position and position is visible
             } forEach _unitVisibleBlacklist}) exitWith {};
 
         _this select [0, 2] breakOut "main";
