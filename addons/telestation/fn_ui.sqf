@@ -1,7 +1,8 @@
 /* ----------------------------------------------------------------------------
 Function: cnto_telestation_fnc_telestation;
 Description:
-    Adds a telestation UI to an object. The telestation allows a player to teleport to any other player on their team, but will not teleport the player near or in the line of sight of enemies or friendlies.
+    Adds a telestation UI to an object. The telestation allows a player to teleport to any other player on their team
+    But will not teleport the player near or in the line of sight of enemies or friendlies.
 Parameters:
     0: The item to attach the telestation to addaction to.
 Returns:
