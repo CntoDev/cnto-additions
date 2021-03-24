@@ -49,9 +49,7 @@ private _fnc_UI = {
                             _cfg = configFile >> "CfgUnitInsignia" >> _insigniaClass;
                         };
                     };
-                    
-                    private _texture = getText (_cfg >> "texture");
-                    _texture
+                    getText (_cfg >> "texture")
                 };
 
                 private _validTargetDisplay = _validTargets apply {
