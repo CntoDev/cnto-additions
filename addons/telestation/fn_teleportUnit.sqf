@@ -5,8 +5,8 @@ private _failPos = [-500, -500, 0]; // Position to be returned by cnto_telestati
                                     // so set this is somthing that will never logically occur if a safe position WAS found.
 
 private _blacklistUnits = allUnits select {_target distance2D _x < 150}; // all units within 150m are to be checked for visibility and distance
-private _blacklistEnemy =    (_blacklistUnits select {(side _caller != side _x) && (side _x != civilian)}) apply {[getPos _x, 50]}; // Do not TP to within 50m of any enemy
-private _blacklistFriendly = (_blacklistUnits select {(side _caller == side _x) || (side _x == civilian)}) apply {[getPos _x, 10]}; // Do not TP to within 10m of any friendly or civilian
+private _blacklistEnemy =    (_blacklistUnits select {(side _caller != side _x) && (side _x != civilian)}) apply {[getPos _x, 75]}; // Do not TP to within 50m of any enemy
+private _blacklistFriendly = (_blacklistUnits select {(side _caller == side _x) || (side _x == civilian)}) apply {[getPos _x, 5]}; // Do not TP to within 10m of any friendly or civilian
 private _blacklist = _blacklistEnemy + _blacklistFriendly;
 
 // if target is in vehicle and said vehicle has space
@@ -31,6 +31,7 @@ if (vehicle _target != _target && vehicle _target emptyPositions "cargo" > 0) th
             0,                      // shore mode
             _blacklist,             // blacklist positions array
             _blacklistUnits,        // blacklisted unit visibility checks
+            side _caller,           // friendly side
             [_failPos, _failPos]    // default positions if no pos found
         ] call cnto_telestation_fnc_customFindSafePos;
         

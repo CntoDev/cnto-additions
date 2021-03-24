@@ -37,7 +37,10 @@
         8: (Optional) ARRAY - Units to check visiblility from: 
                 ARRAY - array of units.
 
-        9: (Optional) ARRAY - array in format [landPosition, seaPosition], where:
+        9: (Optional) SIDE
+                Friendly side, visibility is only checked for non-friendly units, otherwise just angle is checked.
+
+        10: (Optional) ARRAY - array in format [landPosition, seaPosition], where:
                 landPosition: ARRAY - in format [x,y] or [x,y,z] - default position on land
                 seaPosition: ARRAY - in format [x,y] or [x,y,z] - default position on water
 	
@@ -60,6 +63,7 @@ params [
     ["_shoreMode",0], 
     ["_posBlacklist",[]],
     ["_unitVisibleBlacklist",[]],
+    ["_friendlySide", civilian],
     ["_defaultPos",[]]
 ];
 
@@ -150,7 +154,9 @@ for "_i" from 1 to MAX_TRIES do
             {
                 private _pos = (AGLtoASL _this) vectorAdd [0, 0, 1.8]; // eye level to eye level check
                 private _relDir = _x getRelDir _pos;
-                if ((_relDir < 60 or _relDir > 300) && {[_x, "GEOM"] checkVisibility [eyePos _x, _pos] > 0.01}) exitWith {true}; false // check unit is facing position and position is visible
+                private _visibility = if !(side _x in [_friendlySide, civilian]) then {[_x, "GEOM"] checkVisibility [eyePos _x, _pos]} else {0};    // It is ok if friendly units can see the TP position, but not enemies.
+                if ({_relDir < 45 or _relDir > 315} && {_visibility > 0.01}) exitWith {true};                                                       // Is the unit directly facing posiiton?
+                false
             } forEach _unitVisibleBlacklist}) exitWith {};
 
         _this select [0, 2] breakOut "main";
