@@ -155,7 +155,7 @@ for "_i" from 1 to MAX_TRIES do
                 private _pos = (AGLtoASL _this) vectorAdd [0, 0, 1.8]; // eye level to eye level check
                 private _relDir = _x getRelDir _pos;
                 private _visibility = if !(side _x in [_friendlySide, civilian]) then {[_x, "GEOM"] checkVisibility [eyePos _x, _pos]} else {0};    // It is ok if friendly units can see the TP position, but not enemies.
-                if ((_relDir < 45 or _relDir > 315) && ((_visibility > 0.01))) exitWith {true};                                                       // Is the unit directly facing posiiton?
+                if ((_relDir < 45 or _relDir > 315) && (_visibility > 0.01)) exitWith {true};                                                       // Is the unit directly facing posiiton?
                 false
             } forEach _unitVisibleBlacklist}) exitWith {};
 
