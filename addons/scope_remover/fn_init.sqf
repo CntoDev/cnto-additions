@@ -9,14 +9,16 @@
     true   /* needRestart */
 ] call CBA_settings_fnc_init;
 
+if !(isServer) exitWith {};
 
-0 = [] spawn {
-    if !(isServer && cnto_scope_remover_enable) exitWith {};
+["CBA_settingsInitialized", {
+    if !(cnto_scope_remover_enable) exitWith {};
     ["CAManBase", "initPost", {
         params ["_unit"];
         if (primaryWeapon _unit == "" || _unit in playableUnits || isPlayer _unit || _unit in allPlayers) exitWith {};
         private _role = [configOf _unit, "displayName"] call BIS_fnc_returnConfigEntry;
-        if (["sniper", "marksman", "Sniper", "Marksman", "spotter", "Spotter"] findIf {_x in _role} != -1) exitWith {};
+        _role = toLower _role;
+        if (["sniper", "marksman", "spotter"] findIf {_x in _role} != -1) exitWith {};
         private _optic = (primaryWeaponItems _unit)#2;
         if (_optic == "") exitWith {};
         private _opticCfg = (configfile >> "CfgWeapons" >> _optic >> "ItemInfo" >> "OpticsModes"); 
@@ -26,5 +28,5 @@
         if !(_opticMaxZoom >= 0.25) then {
             [_unit, _optic] remoteExec ["removePrimaryWeaponItem"];
         };
-    },true,[],true] call CBA_fnc_addClassEventHandler;
-};
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+}] call CBA_fnc_addEventHandler;
