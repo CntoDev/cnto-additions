@@ -10,11 +10,11 @@
 ] call CBA_settings_fnc_init;
 
 
-0 spawn {
+0 = [] spawn {
     if !(isServer && cnto_scope_remover_enable) exitWith {};
     ["CAManBase", "initPost", {
         params ["_unit"];
-        if (primaryWeapon _unit == "" or _unit in playableUnits or isPlayer _unit or _unit in allPlayers) exitWith {};
+        if (primaryWeapon _unit == "" || _unit in playableUnits || isPlayer _unit || _unit in allPlayers) exitWith {};
         private _role = [configOf _unit, "displayName"] call BIS_fnc_returnConfigEntry;
         if (["sniper", "marksman", "Sniper", "Marksman", "spotter", "Spotter"] findIf {_x in _role} != -1) exitWith {};
         private _optic = (primaryWeaponItems _unit)#2;
