@@ -4,9 +4,9 @@
     ["Enable", "Remove any scopes of more than 1x from AI (that are NOT Snipers or Marksman) units upon spawning."],
     ["CNTO Additions", "Scope remover"],
     true,  /* default */
-    false,  /* isGlobal */
+    true,  /* isGlobal */
     nil,   /* script */
-    false   /* needRestart */
+    true   /* needRestart */
 ] call CBA_settings_fnc_init;
 
 
