@@ -1,5 +1,5 @@
 class CfgPatches {
-    class cnto_telestation {
+    class cnto_scope_remover {
         units[] = {};
         weapons[] = {};
         requiredAddons[] = {
@@ -9,7 +9,7 @@ class CfgPatches {
 };
 
 class CfgFunctions {
-    class cnto_telestation {
+    class cnto_scope_remover {
         class all {
             file = "\cnto\additions\scope_remover";
             class init;
