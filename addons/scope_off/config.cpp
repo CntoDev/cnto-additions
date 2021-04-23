@@ -3,7 +3,7 @@ class CfgPatches {
         units[] = {};
         weapons[] = {};
         requiredAddons[] = {
-            "cba_a3"
+            "cba_settings"
         };
     };
 };
