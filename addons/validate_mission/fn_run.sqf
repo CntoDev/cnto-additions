@@ -5,9 +5,9 @@
 private _check_game_type = {
     private _type = "Multiplayer" get3DENMissionAttribute "GameType";
     if (_type in ["Coop","DM"]) then {
-        ["Game Type", true];
+        ["Game type", true];
     } else {
-        ["Game Type", false, [], [
+        ["Game type", false, [], [
             format ["Unexpected game type %1.", _type],
             "This may be okay for a custom mission, but none of the default modules",
             "use this type. If you're making a normal mission, check that a module",
@@ -20,16 +20,16 @@ private _check_respawn_type = {
     private _gametype = "Multiplayer" get3DENMissionAttribute "GameType";
     private _respawn = "Multiplayer" get3DENMissionAttribute "Respawn";
     if (!(_gametype in ["Coop","DM"])) exitWith {
-        ["Respawn Type", true]  /* unknown, pass */
+        ["Respawn type", true]  /* unknown, pass */
     };
     /* 3 = custom position, 1 = spectator */
     if (
         (_gametype == "Coop" && _respawn in [3,1]) ||
         (_gametype == "DM" && _respawn == 1)
         ) then {
-        ["Respawn Type", true];
+        ["Respawn type", true];
     } else {
-        ["Respawn Type", false, [], [
+        ["Respawn type", false, [], [
             "Invalid respawn settings for Coop/PvP.",
             "Make sure the correct module composition was placed and respawn settings",
             "were not edited."
@@ -43,9 +43,9 @@ private _check_respawn_marker_invis = {
         _x select [0,7] == "respawn" && _alpha > 0;
     };
     if (_failed isEqualTo []) then {
-        ["Respawn Markers Invisible", true];
+        ["Respawn markers invisible", true];
     } else {
-        ["Respawn Markers Invisible", false, _failed, [
+        ["Respawn markers invisible", false, _failed, [
             "Some respawn markers are visible.",
             "Double click them in the left panel (or on the map screen) and set their",
             "'Alpha' value all the way to 0%."
@@ -68,7 +68,7 @@ private _check_respawn_marker_proximity = {
         _found == -1;
     };
     if (_failed isEqualTo []) then {
-        ["Respawn Markers Proximity", true];
+        ["Respawn markers proximity", true];
     } else {
         private _msg = [
             format ["One or more respawn markers is >%1m away from nearest playable unit.", _maxdist],
@@ -92,17 +92,40 @@ private _check_respawn_marker_proximity = {
                     "which is probably not intentional (JIPs joining on a place different",
                     "from where players respawn). Move it closer to a respawn marker."
                 ];
-                ["Respawn Markers Proximity", false, _failed, _msg];
+                ["Respawn markers proximity", false, _failed, _msg];
             } else {
-                ["Respawn Markers Proximity", true];
+                ["Respawn markers proximity", true];
             };
         } else {
             _msg append [
                 "If the starting position is vastly different from the respawn location,",
                 "consider using the 'Teleport on JIP' module."
             ];
-            ["Respawn Markers Proximity", false, _failed, _msg];
+            ["Respawn markers proximity", false, _failed, _msg];
         };
+    };
+};
+
+private _check_respawn_marker_count = {
+    private _gametype = "Multiplayer" get3DENMissionAttribute "GameType";
+    if (_gametype != "Coop") exitWith {
+        ["Respawn marker count", true];
+    };
+    private _count = {
+        _x select [0,7] == "respawn";
+    } count (all3DENEntities select 5);
+    if (_count <= 1) then {
+        ["Respawn marker count", true];
+    } else {
+        ["Respawn marker count", false, [], [
+            format ["Found >1 (%1) respawn markers.", _count],
+            "Using multiple respawn markers for Coop results in players respawning",
+            "on randomly chosen respawn markers. This is a very rare use case.",
+            "It's more likely that you deleted a player faction composition in 3D",
+            "and re-placed it, leaving old map markers behind.",
+            "Either delete those markers from the left panel (or map view) or simply",
+            "delete the entire placed composition in map view + re-place it."
+        ]];
     };
 };
 
@@ -115,9 +138,9 @@ private _check_mission_info = {
     if (_picture == "") then { _msg pushBack "Mission Overview Picture is empty." };
     if (_text == "") then { _msg pushBack "Mission Overview Text is empty." };
     if (_title != "") then {
-        ["Mission Info", true, [], _msg];
+        ["Mission info", true, [], _msg];
     } else {
-        ["Mission Info", false, [], _msg + [
+        ["Mission info", false, [], _msg + [
             "Fill in at least the mission Title in Attributes -> General."
         ]];
     };
@@ -130,7 +153,7 @@ private _check_cba_settings = {
     private _strings = _changed apply {
         format ["%1 = %2;", _x, [_x, "mission"] call CBA_settings_fnc_get];
     };
-    ["Changed CBA Settings", true, [], _strings];
+    ["Changed CBA settings", true, [], _strings];
 };
 
 
@@ -139,6 +162,7 @@ private _check_cba_settings = {
     [] call _check_respawn_type,
     [] call _check_respawn_marker_invis,
     [] call _check_respawn_marker_proximity,
+    [] call _check_respawn_marker_count,
     [] call _check_mission_info,
     [] call _check_cba_settings
 ];
