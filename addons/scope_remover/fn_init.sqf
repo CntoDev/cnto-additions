@@ -21,7 +21,6 @@ if !(isServer) exitWith {};
         if (["sniper", "marksman", "spotter"] findIf { _x in _role } != -1) exitWith {};
         private _optic = (primaryWeaponItems _unit)#2;
         if (_optic == "") exitWith {};
-        private _opticCfg = (configfile >> "CfgWeapons" >> _optic >> "ItemInfo" >> "OpticsModes"); 
         private _opticCfg = configfile >> "CfgWeapons" >> _optic;
         private _opticVisionModes = configProperties [_opticCfg >> "ItemInfo" >> "OpticsModes", "true", true];
         private _opticMaxZoom = selectMin (_opticVisionModes apply { getNumber (_x >> "opticsZoomMin") });
