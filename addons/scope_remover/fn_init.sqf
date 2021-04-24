@@ -16,16 +16,16 @@ if !(isServer) exitWith {};
     ["CAManBase", "initPost", {
         params ["_unit"];
         if (primaryWeapon _unit == "" || _unit in playableUnits || isPlayer _unit || _unit in allPlayers) exitWith {};
-        private _role = [configOf _unit, "displayName"] call BIS_fnc_returnConfigEntry;
+        private _role = getText (configOf _unit >> "displayName");
         _role = toLower _role;
-        if (["sniper", "marksman", "spotter"] findIf {_x in _role} != -1) exitWith {};
+        if (["sniper", "marksman", "spotter"] findIf { _x in _role } != -1) exitWith {};
         private _optic = (primaryWeaponItems _unit)#2;
         if (_optic == "") exitWith {};
         private _opticCfg = (configfile >> "CfgWeapons" >> _optic >> "ItemInfo" >> "OpticsModes"); 
-        private _opticVisionModes = [_opticCfg,2] call BIS_fnc_returnChildren; 
-        private _opticExtremes = [_opticVisionModes,["opticsZoomMin"]] call BIS_fnc_configExtremes; 
-        private _opticMaxZoom = (_opticExtremes#0)#0;
-        if !(_opticMaxZoom >= 0.25) then {
+        private _opticCfg = configfile >> "CfgWeapons" >> _optic;
+        private _opticVisionModes = configProperties [_opticCfg >> "ItemInfo" >> "OpticsModes", "true", true];
+        private _opticMaxZoom = selectMin (_opticVisionModes apply { getNumber (_x >> "opticsZoomMin") });
+        if (_opticMaxZoom < 0.25) then {
             [_unit, _optic] remoteExec ["removePrimaryWeaponItem"];
         };
     }, true, [], true] call CBA_fnc_addClassEventHandler;
