@@ -30,3 +30,4 @@ $RECYCLE.BIN/
 
 # project-specific
 tools/Setup-Tools.ps1
+*.pbo
