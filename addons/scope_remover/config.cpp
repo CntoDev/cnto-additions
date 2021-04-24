@@ -16,3 +16,9 @@ class CfgFunctions {
         };
     };
 };
+
+class Extended_PreInit_EventHandlers {
+    class cnto_scope_remover {
+        init = "[] call cnto_scope_remover_fnc_init";
+    };
+};
