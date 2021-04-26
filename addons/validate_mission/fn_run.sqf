@@ -171,6 +171,44 @@ private _check_playable_units = {
     ["Playable unit checks", _pass, [], _msg]
 };
 
+private _default_modules_check = { 
+    private _msg = []; 
+    private _pass = true; 
+    if ((all3DENEntities#7) apply {(_x get3DENAttribute "name")#0} find "CNTO" isEqualTo -1) then { 
+        _msg pushBack "Default CNTO modules not detected.";
+        _msg pushBack "Place down the default CNTO Co-op or PvP modules.";
+        _pass = false; 
+
+    } else { 
+
+        private _briefingModules = all3DENEntities#3 select {typeOf _x isEqualTo "a3aa_ee_briefing"}; 
+        if (count _briefingModules > 0) then { 
+
+            { 
+                private _module = _x;
+                private _moduleIndex = _forEachIndex + 1;
+                { 
+                    private _fieldText = (_module get3DENAttribute _x)#0; 
+                    if (count _fieldText < 5) then { 
+                        _msg pushBack format ["Field '%1' of the OPORD briefing module %2 is incomplete", _x select [17], _moduleIndex]; 
+                        _pass = false; 
+                    } 
+                } forEach ["a3aa_ee_briefing_situation", "a3aa_ee_briefing_mission", "a3aa_ee_briefing_execution", "a3aa_ee_briefing_admin_logistics"]; 
+            } forEach _briefingModules; 
+
+        } else { 
+            _msg pushBack "No OPORD briefing modules found";
+            _msg pushBack "The default CNTO modules seem to have been placed, yet no briefing module has been found.";
+            _msg pushBack "Delete the whole CNTO Module set and re-place it.";
+            _pass = false; 
+        } 
+
+    }; 
+
+    ["CNTO module check", _pass, [], _msg]; 
+};
+
+
 [
     [] call _check_game_type,
     [] call _check_respawn_type,
@@ -179,5 +217,6 @@ private _check_playable_units = {
     [] call _check_respawn_marker_count,
     [] call _check_mission_info,
     [] call _check_cba_settings,
-    [] call _check_playable_units
+    [] call _check_playable_units,
+    [] call _default_modules_check
 ];
