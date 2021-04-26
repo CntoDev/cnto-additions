@@ -214,9 +214,9 @@ private _check_binarization = {
         _msg pushBack "Your mission file is binarized";
         _msg pushBack "This makes debugging and mission corruption harder to solve";
         _msg pushBack "It also makes the job of reviewing your mission harder.";
-        _msg pushBack "To fix this, press 'Scenario -> Save As' your mission";
-        _msg pushBack "Then, uncheck the 'Binarize the Scenario file' checkbox";
-        _msg pushBack "Then overwrite your current mission";
+        _msg pushBack "To fix this, go to 'Attributes -> General -> Misc'";
+        _msg pushBack "And uncheck the 'Binarize the Scenario file' checkbox";
+        _msg pushBack "Then save your mission";
         ["Binarized scenario file", false, [], _msg]; 
     } else {
         ["Binarized scenario file", true, [], _msg]; 
