@@ -208,6 +208,20 @@ private _check_default_modules = {
     ["CNTO module check", _pass, [], _msg]; 
 };
 
+private _check_binarization = {
+    private _msg = [];
+    if ("Scenario" get3DENMissionAttribute "SaveBinarized") then { 
+        _msg pushBack "Your mission file is binarized";
+        _msg pushBack "This makes debugging and mission corruption harder to solve";
+        _msg pushBack "It also makes the job of reviewing your mission harder.";
+        _msg pushBack "To fix this, press 'Scenario -> Save As' your mission";
+        _msg pushBack "Then, uncheck the 'Binarize the Scenario file' checkbox";
+        _msg pushBack "Then overwrite your current mission";
+        ["Binarized scenario file", false, [], _msg]; 
+    } else {
+        ["Binarized scenario file", true, [], _msg]; 
+    }
+};
 
 [
     [] call _check_game_type,
@@ -219,4 +233,5 @@ private _check_default_modules = {
     [] call _check_cba_settings,
     [] call _check_playable_units,
     [] call _check_default_modules
+    [] call _check_binarization;
 ];
