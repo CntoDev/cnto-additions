@@ -161,11 +161,11 @@ private _check_playable_units = {
     private _pass = true;
     if (count playableUnits < 35) then {
         (_msg pushBack "Not enough playable units: 35 required")};
-        private _pass = false;
+        _pass = false;
     if (isNil {group player get3DENAttribute "a3aa_ee_persistent_callsign" select 0}) then {
         _msg pushback "Possible AI unit marked as player.";
         _msg pushback "Did you place some AI before any playable units?";
-        private _pass = false;
+        _pass = false;
     };
 
     ["Playable unit checks", _pass, [], _msg]
