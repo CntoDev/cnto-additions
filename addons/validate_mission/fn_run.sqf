@@ -232,6 +232,6 @@ private _check_binarization = {
     [] call _check_mission_info,
     [] call _check_cba_settings,
     [] call _check_playable_units,
-    [] call _check_default_modules
-    [] call _check_binarization;
+    [] call _check_default_modules,
+    [] call _check_binarization
 ];
