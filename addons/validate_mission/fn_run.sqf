@@ -156,6 +156,20 @@ private _check_cba_settings = {
     ["Changed CBA settings", true, [], _strings];
 };
 
+private _check_playable_units = {
+    private _msg = [];
+    private _pass = true;
+    if (count playableUnits < 35) then {
+        (_msg pushBack "Not enough playable units: 35 required")};
+        private _pass = false;
+    if (isNil {group player get3DENAttribute "a3aa_ee_persistent_callsign" select 0}) then {
+        _msg pushback "Possible AI unit marked as player.";
+        _msg pushback "Did you place some AI before any playable units?";
+        private _pass = false;
+    };
+
+    ["Playable unit checks", _pass, [], _msg]
+};
 
 [
     [] call _check_game_type,
@@ -164,5 +178,6 @@ private _check_cba_settings = {
     [] call _check_respawn_marker_proximity,
     [] call _check_respawn_marker_count,
     [] call _check_mission_info,
-    [] call _check_cba_settings
+    [] call _check_cba_settings,
+    [] call _check_playable_units
 ];
