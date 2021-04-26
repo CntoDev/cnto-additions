@@ -171,7 +171,7 @@ private _check_playable_units = {
     ["Playable unit checks", _pass, [], _msg]
 };
 
-private _default_modules_check = { 
+private _check_default_modules = { 
     private _msg = []; 
     private _pass = true; 
     if ((all3DENEntities#7) apply {(_x get3DENAttribute "name")#0} find "CNTO" isEqualTo -1) then { 
@@ -218,5 +218,5 @@ private _default_modules_check = {
     [] call _check_mission_info,
     [] call _check_cba_settings,
     [] call _check_playable_units,
-    [] call _default_modules_check
+    [] call _check_default_modules
 ];
