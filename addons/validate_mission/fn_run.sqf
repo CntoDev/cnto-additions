@@ -160,11 +160,14 @@ private _check_playable_units = {
     private _msg = [];
     private _pass = true;
     if (count playableUnits < 35) then {
-        (_msg pushBack "Not enough playable units: 35 required")};
+        _msg pushBack "Not enough playable units: 35 required";
         _pass = false;
+    };
     if ((group player get3DENAttribute "a3aa_ee_persistent_callsign" select 0) isEqualTo "") then {
-        _msg pushback "Possible AI unit marked as player.";
-        _msg pushback "Did you place some AI before any playable units?";
+        _msg append [
+            "Possible AI unit marked as player.",
+            "Did you place some AI before any playable units?"
+        ];
         _pass = false;
     };
 
@@ -172,11 +175,14 @@ private _check_playable_units = {
 };
 
 private _check_default_modules = { 
-    private _msg = []; 
-    private _pass = true; 
+    private _msg = [];
+    private _pass = true;
+    private _emptyModules = [];
     if ((all3DENEntities#7) apply {(_x get3DENAttribute "name")#0} find "CNTO" isEqualTo -1) then { 
-        _msg pushBack "Default CNTO modules not detected.";
-        _msg pushBack "Place down the default CNTO Co-op or PvP modules.";
+        _msg append [
+            "Default CNTO modules not detected.",
+            "Place down the default CNTO Co-op or PvP modules."
+        ];
         _pass = false; 
 
     } else { 
@@ -190,33 +196,38 @@ private _check_default_modules = {
                 { 
                     private _fieldText = (_module get3DENAttribute _x)#0; 
                     if (count _fieldText < 5) then { 
-                        _msg pushBack format ["Field '%1' of the OPORD briefing module %2 is incomplete", _x select [17], _moduleIndex]; 
+                        _msg pushBack format ["Field '%1' of the OPORD briefing module %2 is incomplete.", _x select [17], _moduleIndex]; 
                         _pass = false; 
+                        _emptyModules pushBackUnique _module;
                     } 
                 } forEach ["a3aa_ee_briefing_situation", "a3aa_ee_briefing_mission", "a3aa_ee_briefing_execution", "a3aa_ee_briefing_admin_logistics"]; 
             } forEach _briefingModules; 
 
         } else { 
-            _msg pushBack "No OPORD briefing modules found";
-            _msg pushBack "The default CNTO modules seem to have been placed, yet no briefing module has been found.";
-            _msg pushBack "Delete the whole CNTO Module set and re-place it.";
+            _msg append [
+                "No OPORD briefing modules found",
+                "The default CNTO modules seem to have been placed, yet no briefing module has been found.",
+                "Delete the whole CNTO Module set and re-place it."
+            ];
             _pass = false; 
         } 
 
     }; 
 
-    ["CNTO module check", _pass, [], _msg]; 
+    ["CNTO module checks", _pass, _emptyModules, _msg]; 
 };
 
 private _check_binarization = {
     private _msg = [];
-    if ("Scenario" get3DENMissionAttribute "SaveBinarized") then { 
-        _msg pushBack "Your mission file is binarized";
-        _msg pushBack "This makes debugging and mission corruption harder to solve";
-        _msg pushBack "It also makes the job of reviewing your mission harder.";
-        _msg pushBack "To fix this, go to 'Attributes -> General -> Misc'";
-        _msg pushBack "And uncheck the 'Binarize the Scenario file' checkbox";
-        _msg pushBack "Then save your mission";
+    if ("Scenario" get3DENMissionAttribute "SaveBinarized") then {
+        _msg = [
+            "Your mission file is binarized",
+            "This makes debugging and mission corruption harder to solve",
+            "It also makes the job of reviewing your mission harder.",
+            "To fix this, go to 'Attributes -> General -> Misc'",
+            "And uncheck the 'Binarize the Scenario file' checkbox",
+            "Then save your mission"
+        ];
         ["Binarized scenario file", false, [], _msg]; 
     } else {
         ["Binarized scenario file", true, [], _msg]; 
