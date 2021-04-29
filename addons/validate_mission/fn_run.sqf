@@ -226,7 +226,9 @@ private _check_binarization = {
             "It also makes the job of reviewing your mission harder.",
             "To fix this, go to 'Attributes -> General -> Misc'",
             "And uncheck the 'Binarize the Scenario file' checkbox",
-            "Then save your mission"
+            "",
+            "You can also disable binarization by default:",
+            "Settings -> Preferences -> Saving -> Binarize New Scenario Files"
         ];
         ["Binarized scenario file", false, [], _msg]; 
     } else {
