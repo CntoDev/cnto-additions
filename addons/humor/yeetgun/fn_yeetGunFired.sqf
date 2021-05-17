@@ -1,5 +1,5 @@
 params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
-private _barrelPos = getPosWorld _unit;
+private _barrelPos = eyePos _unit;
 if (local _unit) then {
     // Shitty hack for 0 damage bullets, as AI refuse to shoot 0 damage ammo.
     deleteVehicle _projectile;
@@ -19,6 +19,28 @@ if (local _unit) then {
         private _effectiveAngle = deg pi*_weaponDirToMagnitude/2;
         private _angle = _barrelFOV min _effectiveAngle;
         private _angleCoef  = 1 - (_angle/_barrelFOV);
+        if (_distanceCoef == 0 || _angleCoef == 0) then {continue};
+
+        // Visiblity check
+        private _bbr = 0 boundingBoxReal _target;
+        private _p1 = _bbr select 0;
+        private _p2 = _bbr select 1;
+        private _canHit = false;
+        // Checks the 8 bounding box points to see if any part of the object is visible. Horrible, right?
+        for "_i" from 0 to 1 do {
+            private _posX = [_p1#0, _p2#0]#_i;
+            for "_j" from 0 to 1 do {
+                private _posY = [_p1#1, _p2#1]#_j;
+                for "_k" from 0 to 1 do {
+                    private _posZ = [_p1#2, _p2#2]#_k;
+                    private _pos = AGLtoASL (_target modelToWorld [_posX, _posY, _posZ]);
+                    if !(lineIntersects [_barrelPos, _pos, _unit, _target]) exitWith {_canHit = true}
+                };
+                if (_canHit) exitWith {}
+            };
+            if (_canHit) exitWith {};
+        };
+        if !(_canHit) then {continue};
 
         private _case = ["Static", "CAManBase", "AllVehicles"] findIf {_target isKindOf _x};
         switch (_case) do {
@@ -42,9 +64,6 @@ if (local _unit) then {
                 };
             };
             case 2: {
-                private _bbr = 0 boundingBoxReal _target;
-                private _p1 = _bbr select 0;
-                private _p2 = _bbr select 1;
                 private _maxWidth = abs ((_p2 select 0) - (_p1 select 0));
                 private _maxLength = abs ((_p2 select 1) - (_p1 select 1));
                 private _maxHeight = abs ((_p2 select 2) - (_p1 select 2));
