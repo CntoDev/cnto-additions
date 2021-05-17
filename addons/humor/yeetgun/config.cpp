@@ -79,7 +79,6 @@ class CfgAmmo
     class B_45ACP_Ball;
     class Cnto_Yeetgun_Round: B_45ACP_Ball
     {
-        hit = 0;
     };
 };
 

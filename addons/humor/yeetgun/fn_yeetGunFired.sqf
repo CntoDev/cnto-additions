@@ -1,6 +1,9 @@
 params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
 private _barrelPos = getPosWorld _unit;
 if (local _unit) then {
+    // Shitty hack for 0 damage bullets, as AI refuse to shoot 0 damage ammo.
+    deleteVehicle _projectile;
+
     private _range = 85;
     private _pressureBase = 13500; // Wind pressure of 335mph wind
     private _barrelFOV = 45;
