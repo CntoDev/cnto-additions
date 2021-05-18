@@ -3,14 +3,15 @@ private _barrelPos = eyePos _unit;
 if (local _unit) then {
     // Shitty hack for 0 damage bullets, as AI refuse to shoot 0 damage ammo.
     deleteVehicle _projectile;
-
-    private _range = 85;
-    private _pressureBase = 13500; // Wind pressure of 335mph wind
-    private _barrelFOV = 45;
-    private _nearby = nearestObjects [_unit, ["Static", "CAManBase", "AllVehicles"], _range] - [_unit];
-    {
-        private _target = _x;
-        private _weaponDirVec = _unit weaponDirection currentWeapon _unit;
+};
+private _range = 85;
+private _pressureBase = 13500; // Wind pressure of 335mph wind
+private _barrelFOV = 45;
+private _nearby = nearestObjects [_unit, ["Static", "CAManBase", "AllVehicles"], _range] - [_unit];
+private _weaponDirVec = _unit weaponDirection currentWeapon _unit;
+{
+    private _target = _x;
+    if (local _target) then {
         private _vectorDirTo = _barrelPos vectorFromTo getPosWorld _target;
         private _distanceToTarget = _target distance _unit;
         private _distanceCoef = 0 max (1 - _distanceToTarget/_range);
@@ -20,7 +21,7 @@ if (local _unit) then {
         private _angle = _barrelFOV min _effectiveAngle;
         private _angleCoef  = 1 - (_angle/_barrelFOV);
         if (_distanceCoef == 0 || _angleCoef == 0) then {continue};
-
+        
         // Visiblity check
         private _bbr = 0 boundingBoxReal _target;
         private _p1 = _bbr select 0;
@@ -45,6 +46,9 @@ if (local _unit) then {
         private _case = ["Static", "CAManBase", "AllVehicles"] findIf {_target isKindOf _x};
         switch (_case) do {
             case 0: {
+                // Terrain objects are always local, this fixes that!
+                if !(isServer) then {continue};
+
                 _damageDealt = 1 * _angleCoef * _distanceCoef;
                 _target setDamage (damage _target + _damageDealt);
             };
@@ -76,8 +80,8 @@ if (local _unit) then {
                 };
             };
         };
-    } forEach _nearby;
-};
+    };
+} forEach _nearby;
 // Smonk
 private _direction = getDir _unit;
 private _particleDirection = [[0, 25, 3], _direction, 2] call BIS_fnc_rotateVector3D;
