@@ -1,6 +1,6 @@
 class CfgPatches 
 {
-    class cnto_humor 
+    class cnto_humor_yeetgun
     {
         units[] = {};
         weapons[] = {"cnto_hgun_Pistol_Yeetgun"};
@@ -15,7 +15,7 @@ class CfgPatches
 
 class CfgFunctions
 {
-    class cnto_yeetgun
+    class cnto_humor_yeetgun
     {
         class all
         {
@@ -34,7 +34,7 @@ class CfgWeapons
         author = "Seb";
         baseWeapon = "cnto_hgun_Pistol_Yeetgun";
         picture = "\A3\Weapons_F_EPA\Pistols\Pistol_Heavy_02\data\UI\gear_Pistol_heavy_02_X_CA.paa";
-        magazines[] = {"Cnto_Yeetgun_Cannister"};
+        magazines[] = {"cnto_Yeetgun_Cannister"};
         magazineWell[] = {""};
         displayname = "The Yeet Gun™";
         descriptionShort = "Handgun..?<br />Caliber: Air";
@@ -52,7 +52,7 @@ class CfgWeapons
             class BaseSoundModeType;
             class StandardSound: BaseSoundModeType
             {
-                soundSetShot[] = {"Yeetgun_Shot_SoundSet","Zubr_Tail_SoundSet","Zubr_InteriorTail_SoundSet"};
+                soundSetShot[] = {"cnto_Yeetgun_Shot_SoundSet","Zubr_Tail_SoundSet","Zubr_InteriorTail_SoundSet"};
             };
             class SilencedSound: BaseSoundModeType
             {
@@ -64,12 +64,12 @@ class CfgWeapons
 class CfgMagazines
 {
     class 6Rnd_45ACP_Cylinder;
-    class Cnto_Yeetgun_Cannister: 6Rnd_45ACP_Cylinder 
+    class cnto_Yeetgun_Cannister: 6Rnd_45ACP_Cylinder 
     {
         author = "Seb";
         displayName = "CNTO Certified Yeetgun Cannister";
         descriptionShort = "Caliber: Air<br />Rounds: 6<br />Used in: The Yeet Gun™";
-        ammo = "Cnto_Yeetgun_Round";
+        ammo = "cnto_Yeetgun_Round";
     };
 };
 
@@ -77,7 +77,7 @@ class CfgMagazines
 class CfgAmmo
 {
     class B_45ACP_Ball;
-    class Cnto_Yeetgun_Round: B_45ACP_Ball
+    class cnto_Yeetgun_Round: B_45ACP_Ball
     {
     };
 };
@@ -85,29 +85,29 @@ class CfgAmmo
 class CfgSoundSets
 {
     class Pistol_Shot_Base_SoundSet;
-    class Yeetgun_Shot_SoundSet: Pistol_Shot_Base_SoundSet
+    class cnto_Yeetgun_Shot_SoundSet: Pistol_Shot_Base_SoundSet
     {
-        soundShaders[] = {"Zubr_Closure_SoundShader","Yeetgun_closeShot_SoundShader","Yeetgun_midShot_SoundShader","Yeetgun_distShot_SoundShader"};
+        soundShaders[] = {"Zubr_Closure_SoundShader","cnto_Yeetgun_closeShot_SoundShader","cnto_Yeetgun_midShot_SoundShader","cnto_Yeetgun_distShot_SoundShader"};
     };
 };
 
 class CfgSoundShaders
 {
-    class Yeetgun_closeShot_SoundShader
+    class cnto_Yeetgun_closeShot_SoundShader
     {
         samples[] = {{"\cnto\additions\humor\yeetgun\cnto_hgun_Pistol_Yeetgun_shot",1}};
         volume = 0.8;
         range = 50;
         rangeCurve = "closeShotCurve";
     };
-    class Yeetgun_midShot_SoundShader
+    class cnto_Yeetgun_midShot_SoundShader
     {
         samples[] = {{"\cnto\additions\humor\yeetgun\cnto_hgun_Pistol_Yeetgun_shot",1}};
         volume = 0.707946;
         range = 1200;
         rangeCurve[] = {{0,0.2},{50,1},{150,0},{1200,0}};
     };
-    class Yeetgun_distShot_SoundShader
+    class cnto_Yeetgun_distShot_SoundShader
     {
         samples[] = {{"\cnto\additions\humor\yeetgun\cnto_hgun_Pistol_Yeetgun_shot",1}};
         volume = 1;
