@@ -56,16 +56,14 @@ private _weaponDirVec = _unit weaponDirection currentWeapon _unit;
                 private _targetArea = 0.75;
                 private _pressure = _pressureBase * _distanceCoef * _angleCoef;
                 private _force = _pressure * _targetArea;
-                if (_force != 0) then {
-                    private _forceVector = _vectorDirTo vectorMultiply _force;
-                    _target addForce [_forceVector, [0, 0, 0]];
-                    [_target, {
-                        params ["_target"];
-                        sleep 7;
-                        waitUntil {speed _target < 1};
-                        _target setUnconscious false;
-                    }] remoteExec ["BIS_fnc_spawn"];
-                };
+                private _forceVector = _vectorDirTo vectorMultiply _force;
+                _target addForce [_forceVector, [0, 0, 0]];
+                [_target, {
+                    params ["_target"];
+                    sleep 7;
+                    waitUntil {speed _target < 1};
+                    _target setUnconscious false;
+                }] remoteExec ["spawn"];
             };
             case 2: {
                 private _maxWidth = abs ((_p2 select 0) - (_p1 select 0));
