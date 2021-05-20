@@ -48,7 +48,6 @@ private _weaponDirVec = _unit weaponDirection currentWeapon _unit;
         case 0: {
             // Terrain objects are always local, this fixes that!
             if !(isServer) then {continue};
-
             _damageDealt = 1 * _angleCoef * _distanceCoef;
             _target setDamage (damage _target + _damageDealt);
         };
@@ -79,6 +78,7 @@ private _weaponDirVec = _unit weaponDirection currentWeapon _unit;
         };
     };
 } forEach _nearby;
+
 // Smonk
 private _direction = getDir _unit;
 private _particleDirection = [[0, 25, 3], _direction, 2] call BIS_fnc_rotateVector3D;
