@@ -45,7 +45,7 @@ class CfgWeapons
         };
         class EventHandlers
         {
-            fired = "_this call cnto_yeetgun_fnc_yeetGunFired";
+            fired = "_this call cnto_humor_yeetgun_fnc_yeetGunFired";
         };
         class Single: Mode_SemiAuto
         {
