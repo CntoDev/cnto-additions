@@ -25,7 +25,7 @@
         private _opticVisionModes = configProperties [_opticCfg >> "ItemInfo" >> "OpticsModes", "true", true];
         private _opticMaxZoom = selectMin (_opticVisionModes apply { getNumber (_x >> "opticsZoomMin") });
         if (_opticMaxZoom < 0.25) then {
-            [_unit, _optic] remoteExec ["removePrimaryWeaponItem"];
+            _unit removePrimaryWeaponItem _optic;
         };
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 }] call CBA_fnc_addEventHandler;
