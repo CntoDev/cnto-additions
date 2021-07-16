@@ -9,12 +9,12 @@
     true   /* needRestart */
 ] call CBA_settings_fnc_init;
 
-if !(isServer) exitWith {};
 
 ["CBA_settingsInitialized", {
     if !(cnto_scope_remover_enable) exitWith {};
     ["CAManBase", "initPost", {
         params ["_unit"];
+        if !(local _unit) exitWith {};
         if (primaryWeapon _unit == "" || _unit in playableUnits || isPlayer _unit || _unit in allPlayers) exitWith {};
         private _role = getText (configOf _unit >> "displayName");
         _role = toLower _role;
