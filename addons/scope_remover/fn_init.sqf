@@ -9,12 +9,12 @@
     true   /* needRestart */
 ] call CBA_settings_fnc_init;
 
-if !(isServer) exitWith {};
 
 ["CBA_settingsInitialized", {
     if !(cnto_scope_remover_enable) exitWith {};
     ["CAManBase", "initPost", {
         params ["_unit"];
+        if !(local _unit) exitWith {};
         if (primaryWeapon _unit == "" || _unit in playableUnits || isPlayer _unit || _unit in allPlayers) exitWith {};
         private _role = getText (configOf _unit >> "displayName");
         _role = toLower _role;
@@ -25,7 +25,7 @@ if !(isServer) exitWith {};
         private _opticVisionModes = configProperties [_opticCfg >> "ItemInfo" >> "OpticsModes", "true", true];
         private _opticMaxZoom = selectMin (_opticVisionModes apply { getNumber (_x >> "opticsZoomMin") });
         if (_opticMaxZoom < 0.25) then {
-            [_unit, _optic] remoteExec ["removePrimaryWeaponItem"];
+            _unit removePrimaryWeaponItem _optic;
         };
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 }] call CBA_fnc_addEventHandler;
