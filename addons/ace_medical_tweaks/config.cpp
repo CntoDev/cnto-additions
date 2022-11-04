@@ -6,7 +6,56 @@ class CfgPatches {
         units[] = {};
         weapons[] = {};
         requiredAddons[] = {
-            "ace_medical_status"
+            "ace_medical_status",
+            "ace_medical_statemachine",
+            "ace_medical_damage",
+            "ace_medical_treatment"
+        };
+    };
+};
+
+// avoid the cardiac arrest state when receiving would-be-fatal damage,
+// forcing unconsciousness instead
+// note that this doesn't disable cardiac arrest completely - other logic
+// can still enter that state, ie. very low blood / vitals checking code
+class ACE_Medical_StateMachine {
+    class Default {
+        class FatalVitals {
+            targetState = "Unconscious";
+            events[] = {"ace_medical_FatalVitals"};  // split Bleedout
+        };
+        class FatalInjury {
+            targetState = "Dead";
+            //events[] = {QEGVAR(medical,FatalInjury)};
+        };
+        class Bleedout {
+            targetState = "Dead";
+            events[] = {"ace_medical_Bleedout"};
+        };
+    };
+    class Injured {
+        class FatalVitals {
+            targetState = "Unconscious";
+            events[] = {"ace_medical_FatalVitals"};  // split Bleedout
+        };
+        class FatalInjury {
+            targetState = "Dead";
+            //events[] = {QEGVAR(medical,FatalInjury)};
+        };
+        class Bleedout {
+            targetState = "Dead";
+            events[] = {"ace_medical_Bleedout"};
+        };
+    };
+    class Unconscious {
+        delete FatalTransitions;
+        class FatalInjury {
+            targetState = "Dead";
+            //events[] = {QEGVAR(medical,FatalInjury)};
+        };
+        class Bleedout {
+            targetState = "Dead";
+            events[] = {"ace_medical_Bleedout"};
         };
     };
 };
