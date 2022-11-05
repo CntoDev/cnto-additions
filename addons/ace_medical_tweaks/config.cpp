@@ -119,6 +119,20 @@ class ACE_Medical_Injuries {
     };
 };
 
+class ace_medical_treatment {
+    class Medication {
+        class Morphine {
+            // lower the effect on heart rate, to avoid the need of many
+            // epinephrines to counter it + actually allow people to wake
+            // up without epinephrine use
+            hrIncreaseLow[] = {-1, -5};
+            hrIncreaseNormal[] = {-3, -8};
+            hrIncreaseHigh[] = {-6, -12};
+            timeTillMaxEffect = 10;
+        };
+    };
+};
+
 /*
  * unconsciousness condition tweaks
  *
